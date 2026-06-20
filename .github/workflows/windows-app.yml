@@ -24,7 +24,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller
-          pyinstaller app.py --onefile --name liuyao-backend --distpath dist-backend/win
+          pyinstaller app.py --onefile --name liuyao-backend --distpath dist-backend/win --add-data "static;static"
 
       - name: Setup Node
         uses: actions/setup-node@v4

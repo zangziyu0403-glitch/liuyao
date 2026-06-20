@@ -2,12 +2,16 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import json
 import os
 from pathlib import Path
+import sys
 from urllib.parse import urlparse
 
 from main import AnalysisEngine, LiuYaoEngine, build_query_info
 
 
-ROOT = Path(__file__).resolve().parent
+if getattr(sys, "frozen", False):
+    ROOT = Path(getattr(sys, "_MEIPASS", Path(sys.executable).resolve().parent))
+else:
+    ROOT = Path(__file__).resolve().parent
 STATIC_DIR = ROOT / "static"
 
 

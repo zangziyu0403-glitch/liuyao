@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+
+node_modules/
+release/
+dist/
+dist-backend/
+build/
+
+cloudflared
+cloudflared-*.tgz
+
+.DS_Store

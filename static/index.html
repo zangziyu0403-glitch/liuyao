@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>京房六爻排盘</title>
+    <link rel="stylesheet" href="./style.css?v=progress-polish1" />
+  </head>
+  <body>
+    <div class="intro-overlay" id="introOverlay" aria-label="开场动画">
+      <button class="skip-intro" type="button" id="skipIntro">跳过</button>
+      <div class="intro-content">
+        <div class="intro-lotus" aria-hidden="true">
+          <svg class="lotus-svg" viewBox="0 0 120 120" aria-hidden="true">
+            <path class="lotus-petal lotus-petal-one" d="M60 10 C45 32 46 55 60 75 C74 55 75 32 60 10 Z"></path>
+            <path class="lotus-petal lotus-petal-two" d="M36 28 C16 38 15 62 44 76 C51 56 51 40 36 28 Z"></path>
+            <path class="lotus-petal lotus-petal-three" d="M84 28 C104 38 105 62 76 76 C69 56 69 40 84 28 Z"></path>
+            <path class="lotus-petal lotus-petal-four" d="M31 66 C24 84 39 103 59 86 C50 75 42 68 31 66 Z"></path>
+            <path class="lotus-petal lotus-petal-five" d="M89 66 C96 84 81 103 61 86 C70 75 78 68 89 66 Z"></path>
+            <path class="lotus-inner" d="M60 50 C48 65 48 82 60 96 C72 82 72 65 60 50 Z"></path>
+            <ellipse class="lotus-core" cx="60" cy="70" rx="13" ry="10"></ellipse>
+          </svg>
+        </div>
+        <h1>京房六爻排盘</h1>
+        <p>三枚铜钱起卦 · 京房纳甲</p>
+      </div>
+    </div>
+
+    <main class="app-shell" id="appShell" data-flow="intro">
+      <section class="control-panel" aria-label="起卦引导">
+        <header class="app-header">
+          <div>
+            <h1>京房六爻</h1>
+            <p>三枚铜钱起卦 · 京房纳甲</p>
+          </div>
+          <button class="text-button primary-header-action" type="button" id="headerRestart">重新起卦</button>
+        </header>
+
+        <div class="lotus-progress" id="lotusProgress" aria-label="起卦进度">
+          <svg class="lotus-progress-svg" viewBox="0 0 180 132" role="img" aria-label="莲花起卦进度">
+            <g class="lotus-petal-layer lotus-back-layer">
+              <path class="lotus-ritual-petal" data-ritual="1" d="M90 12 C76 32 77 55 90 78 C103 55 104 32 90 12 Z"></path>
+              <path class="lotus-ritual-petal" data-ritual="1" d="M61 23 C39 35 34 58 62 76 C73 58 74 40 61 23 Z"></path>
+              <path class="lotus-ritual-petal" data-ritual="1" d="M119 23 C141 35 146 58 118 76 C107 58 106 40 119 23 Z"></path>
+              <path class="lotus-ritual-petal" data-ritual="2" d="M42 50 C18 58 17 84 54 88 C62 71 58 58 42 50 Z"></path>
+              <path class="lotus-ritual-petal" data-ritual="2" d="M138 50 C162 58 163 84 126 88 C118 71 122 58 138 50 Z"></path>
+              <path class="lotus-ritual-petal" data-ritual="2" d="M90 30 C78 47 78 67 90 88 C102 67 102 47 90 30 Z"></path>
+            </g>
+            <g class="lotus-petal-layer lotus-front-layer">
+              <path class="lotus-ritual-petal" data-ritual="3" d="M57 67 C37 82 44 108 78 95 C77 78 70 69 57 67 Z"></path>
+              <path class="lotus-ritual-petal" data-ritual="3" d="M123 67 C143 82 136 108 102 95 C103 78 110 69 123 67 Z"></path>
+              <path class="lotus-ritual-petal" data-ritual="3" d="M90 58 C76 75 77 101 90 116 C103 101 104 75 90 58 Z"></path>
+              <path class="lotus-complete-petal" d="M90 44 C80 59 80 78 90 98 C100 78 100 59 90 44 Z"></path>
+            </g>
+            <g class="lotus-pod" aria-label="莲蓬六爻">
+              <path class="lotus-pod-body" d="M69 72 C75 56 105 56 111 72 C116 87 106 103 90 105 C74 103 64 87 69 72 Z"></path>
+              <circle class="lotus-seed" data-line="1" cx="82" cy="74" r="4.2"></circle>
+              <circle class="lotus-seed" data-line="2" cx="98" cy="74" r="4.2"></circle>
+              <circle class="lotus-seed" data-line="3" cx="75" cy="88" r="4.2"></circle>
+              <circle class="lotus-seed" data-line="4" cx="90" cy="91" r="4.2"></circle>
+              <circle class="lotus-seed" data-line="5" cx="105" cy="88" r="4.2"></circle>
+              <circle class="lotus-seed" data-line="6" cx="90" cy="78" r="4.2"></circle>
+            </g>
+          </svg>
+          <div class="lotus-complete-text" id="lotusCompleteText" aria-hidden="true">六爻既成，因果具现。</div>
+        </div>
+
+        <div class="ritual-status" aria-live="polite">
+          <p class="ritual-verse">因起于念，象成于爻。</p>
+          <div class="ritual-progress-title">本次进度</div>
+          <div class="ritual-progress-count" id="ritualProgressCount">已录入 0 / 6</div>
+          <div class="ritual-progress-state" id="ritualProgressState">准备硬币</div>
+          <div class="ritual-status-actions">
+            <button class="text-button" type="button" id="ritualReplayIntro">重看开场</button>
+          </div>
+        </div>
+
+        <section class="ritual-panel" id="ritualPanel" aria-label="仪式引导">
+          <div class="guide-card" id="guideCard">
+            <div class="guide-copy">
+              <div class="guide-kicker" id="guideKicker">第一步</div>
+              <h2 id="guideTitle">准备硬币</h2>
+              <p id="guideText">取三枚硬币，先确定哪一面为“背”。</p>
+            </div>
+
+            <div class="guide-visual" id="guideVisual" aria-hidden="true">
+              <div class="visual-scene visual-coins" data-scene="prepare">
+                <span class="coin coin-one"></span>
+                <span class="coin coin-two"></span>
+                <span class="coin coin-three"></span>
+                <span class="coin-note">背</span>
+              </div>
+
+              <div class="visual-scene visual-incense" data-scene="meditation">
+                <span class="smoke smoke-one"></span>
+                <span class="smoke smoke-two"></span>
+                <span class="incense-stick"></span>
+                <span class="incense-ember"></span>
+                <span class="incense-ash"></span>
+              </div>
+
+              <div class="visual-scene visual-shake" data-scene="shake">
+                <span class="shake-coin shake-coin-one"></span>
+                <span class="shake-coin shake-coin-two"></span>
+                <span class="shake-coin shake-coin-three"></span>
+              </div>
+
+              <div class="visual-scene visual-lines" data-scene="record">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <div class="meditation-tools" id="meditationTools">
+              <div class="incense-timer">
+                <span id="timer">30</span>
+                <div class="incense-progress">
+                  <i id="incenseProgress"></i>
+                </div>
+              </div>
+              <button class="jade-button" type="button" id="startTimer">开始静心</button>
+            </div>
+          </div>
+
+          <div class="guide-actions">
+            <button class="paper-button" type="button" id="skipGuide">跳过引导</button>
+            <div class="guide-step-actions">
+              <button class="paper-button" type="button" id="prevStep">上一步</button>
+              <button class="jade-button" type="button" id="nextStep">下一步</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="query-panel" id="queryPanel" aria-label="求测信息">
+          <div class="record-header">
+            <div>
+              <div class="guide-kicker">求测信息</div>
+              <h2>填写求测信息</h2>
+              <p>此处用于记录起卦背景，不参与自动断卦。</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <label class="form-field">
+              <span>求测者</span>
+              <div class="segmented" role="radiogroup" aria-label="性别">
+                <button class="segment active" type="button" data-gender="女">女</button>
+                <button class="segment" type="button" data-gender="男">男</button>
+              </div>
+            </label>
+
+            <label class="form-field">
+              <span>求测事项</span>
+              <select id="subjectInput">
+                <option value="">暂不填写</option>
+                <option>感情</option>
+                <option>婚姻</option>
+                <option>工作</option>
+                <option>财运</option>
+              </select>
+            </label>
+
+            <label class="form-field">
+              <span>用神选择</span>
+              <select id="yongshenInput">
+                <option value="">排盘后点击爻位选择</option>
+                <option>兄弟</option>
+                <option>父母</option>
+                <option>子孙</option>
+                <option>妻财</option>
+                <option>官鬼</option>
+              </select>
+            </label>
+
+            <label class="form-field full">
+              <span>所问问题</span>
+              <textarea id="questionInput" rows="3" placeholder="可暂不填写"></textarea>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button class="paper-button" type="button" id="backToGuide">返回引导</button>
+            <button class="jade-button" type="button" id="toRecord">开始录入六爻</button>
+          </div>
+        </section>
+
+        <section class="record-panel" id="recordPanel" aria-label="录入六爻">
+          <div class="record-header">
+            <div>
+              <div class="guide-kicker">正式录入</div>
+              <h2>录入六爻</h2>
+              <p>从初爻开始，自下而上录入六次。排盘显示时上爻在上、初爻在下。</p>
+            </div>
+          </div>
+          <div class="record-meter">
+            <span id="recordProgress">第 1 次 / 共 6 次</span>
+            <button class="text-button" type="button" id="resetRecord">重新录入</button>
+          </div>
+
+          <div class="line-recorder">
+            <div class="record-controls">
+              <div class="current-line" id="currentLine">当前录入：初爻</div>
+              <p class="record-prompt" id="recordPrompt">请实际摇三枚硬币，记录背面数量。</p>
+              <div class="coin-options single-options" id="singleCoinOptions">
+                <button class="coin-option" type="button" data-backs="0">0背<small>老阴 6 动</small></button>
+                <button class="coin-option" type="button" data-backs="1">1背<small>少阳 7 静</small></button>
+                <button class="coin-option" type="button" data-backs="2">2背<small>少阴 8 静</small></button>
+                <button class="coin-option" type="button" data-backs="3">3背<small>老阳 9 动</small></button>
+              </div>
+            </div>
+            <div class="record-log">
+              <div class="record-log-title">已录入记录</div>
+              <div class="line-stack" id="lineStack" aria-label="六爻录入记录"></div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="paper-button" type="button" id="recordPrevLine">上一步</button>
+            <button class="jade-button" type="button" id="buildChart" disabled>生成排盘</button>
+            <button class="paper-button" type="button" id="clearAll">清空</button>
+          </div>
+          <p class="status" id="status"></p>
+        </section>
+      </section>
+
+      <section class="result-panel" aria-label="排盘结果">
+        <div class="result-reveal" id="resultReveal">
+          <div>
+            <div class="guide-kicker">卦象将成</div>
+            <h2>请稍候</h2>
+            <p>莲花完成点亮后，排盘结果将显现。</p>
+          </div>
+        </div>
+
+        <div class="result-content" id="resultContent">
+          <div class="result-top">
+            <div>
+              <h2 id="hexagramName">未排盘</h2>
+              <p id="hexagramMeta">完成六次录入后生成排盘</p>
+            </div>
+            <div class="time-box" id="timeBox"></div>
+          </div>
+
+          <div class="hint-strip" id="selectedInfo"></div>
+
+          <div class="chart-layout">
+            <div class="line-head">本卦六爻</div>
+            <div class="change-head">变化</div>
+            <div class="lines" id="lines"></div>
+          </div>
+
+          <div class="relationship-block">
+            <div class="section-title">关系提示</div>
+            <div class="relationship-list" id="relationships"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js?v=progress-polish1"></script>
+  </body>
+</html>

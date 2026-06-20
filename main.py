@@ -3,7 +3,19 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 import math
 from typing import Dict, List, Optional, Tuple
-from zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+
+# =========================================================
+
+SHANGHAI_FALLBACK_TZ = timezone(timedelta(hours=8), "CST")
+
+
+def get_shanghai_timezone():
+    try:
+        return ZoneInfo("Asia/Shanghai")
+    except ZoneInfoNotFoundError:
+        return SHANGHAI_FALLBACK_TZ
+
 
 # =========================================================
 # 京房六爻排盘引擎（校正版）
@@ -362,7 +374,7 @@ def create_divination(
 
 
 def normalize_datetime(dt: Optional[datetime] = None) -> datetime:
-    shanghai_tz = ZoneInfo("Asia/Shanghai")
+    shanghai_tz = get_shanghai_timezone()
     if dt is None:
         return datetime.now(shanghai_tz)
     if dt.tzinfo is None:
@@ -422,7 +434,7 @@ def find_solar_longitude_time(year: int, target_longitude: float) -> datetime:
     if cache_key in SOLAR_TERM_CACHE:
         return SOLAR_TERM_CACHE[cache_key]
 
-    tz = ZoneInfo("Asia/Shanghai")
+    tz = get_shanghai_timezone()
     cursor = datetime(year, 1, 1, tzinfo=tz)
     end = datetime(year + 1, 1, 8, tzinfo=tz)
 
